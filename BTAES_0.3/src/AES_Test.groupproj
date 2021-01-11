@@ -1,0 +1,60 @@
+﻿	<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+		<PropertyGroup>
+			<ProjectGuid>{06A865EA-7DA2-49DA-8EC4-0F14748BDE8F}</ProjectGuid>
+		</PropertyGroup>
+		<ItemGroup>
+			<Projects Include="BTAES128.dproj">
+				<Dependencies/>
+			</Projects>
+			<Projects Include="D:\Ranger\Documents\Visual Studio 2015\Source\Repos\Mylibrary\BTAES_0.3\Stream_Test.dproj">
+				<Dependencies/>
+			</Projects>
+			<Projects Include="D:\Ranger\Documents\Visual Studio 2015\Source\Repos\GWTBInstaller\CSLauncher\Update\Update.dproj">
+				<Dependencies/>
+			</Projects>
+		</ItemGroup>
+		<ProjectExtensions>
+			<Borland.Personality>Default.Personality.12</Borland.Personality>
+			<Borland.ProjectType/>
+			<BorlandProject>
+				<Default.Personality/>
+			</BorlandProject>
+		</ProjectExtensions>
+		<Target Name="BTAES128">
+			<MSBuild Projects="BTAES128.dproj"/>
+		</Target>
+		<Target Name="BTAES128:Clean">
+			<MSBuild Targets="Clean" Projects="BTAES128.dproj"/>
+		</Target>
+		<Target Name="BTAES128:Make">
+			<MSBuild Targets="Make" Projects="BTAES128.dproj"/>
+		</Target>
+		<Target Name="Stream_Test">
+			<MSBuild Projects="D:\Ranger\Documents\Visual Studio 2015\Source\Repos\Mylibrary\BTAES_0.3\Stream_Test.dproj"/>
+		</Target>
+		<Target Name="Stream_Test:Clean">
+			<MSBuild Targets="Clean" Projects="D:\Ranger\Documents\Visual Studio 2015\Source\Repos\Mylibrary\BTAES_0.3\Stream_Test.dproj"/>
+		</Target>
+		<Target Name="Stream_Test:Make">
+			<MSBuild Targets="Make" Projects="D:\Ranger\Documents\Visual Studio 2015\Source\Repos\Mylibrary\BTAES_0.3\Stream_Test.dproj"/>
+		</Target>
+		<Target Name="Update">
+			<MSBuild Projects="D:\Ranger\Documents\Visual Studio 2015\Source\Repos\GWTBInstaller\CSLauncher\Update\Update.dproj"/>
+		</Target>
+		<Target Name="Update:Clean">
+			<MSBuild Targets="Clean" Projects="D:\Ranger\Documents\Visual Studio 2015\Source\Repos\GWTBInstaller\CSLauncher\Update\Update.dproj"/>
+		</Target>
+		<Target Name="Update:Make">
+			<MSBuild Targets="Make" Projects="D:\Ranger\Documents\Visual Studio 2015\Source\Repos\GWTBInstaller\CSLauncher\Update\Update.dproj"/>
+		</Target>
+		<Target Name="Build">
+			<CallTarget Targets="BTAES128;Stream_Test;Update"/>
+		</Target>
+		<Target Name="Clean">
+			<CallTarget Targets="BTAES128:Clean;Stream_Test:Clean;Update:Clean"/>
+		</Target>
+		<Target Name="Make">
+			<CallTarget Targets="BTAES128:Make;Stream_Test:Make;Update:Make"/>
+		</Target>
+		<Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+	</Project>

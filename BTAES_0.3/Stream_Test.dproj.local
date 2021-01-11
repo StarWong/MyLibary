@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>2020/12/16 21:34:01.918.pas,C:\Users\Ranger\Documents\RAD Studio\Projects\Unit5.pas=D:\Ranger\Documents\Visual Studio 2015\Source\Repos\Mylibrary\BTAES_0.3\AES_Stream_Example.pas</Transaction>
+    <Transaction>2020/12/16 21:34:01.918.dfm,C:\Users\Ranger\Documents\RAD Studio\Projects\Unit5.dfm=D:\Ranger\Documents\Visual Studio 2015\Source\Repos\Mylibrary\BTAES_0.3\AES_Stream_Example.dfm</Transaction>
+    <Transaction>2020/12/16 21:34:16.974.dproj,C:\Users\Ranger\Documents\RAD Studio\Projects\Project3.dproj=D:\Ranger\Documents\Visual Studio 2015\Source\Repos\Mylibrary\BTAES_0.3\Stream_Test.dproj</Transaction>
+    <Transaction>2020/12/17 16:16:58.679.pas,D:\Ranger\Documents\Visual Studio 2015\Source\Repos\Mylibrary\Base64.pas=</Transaction>
+  </Transactions>
+</BorlandProject>

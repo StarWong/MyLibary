@@ -1,0 +1,6 @@
+{
+    "Ver": [
+    { "name":"dll" , "version":"0.0.0.0" }, 
+    { "name":"update.exe" , "version":"0.0.0.0" }, 
+    { "name":"launcher.exe" , "version":"0.0.0.0" }
+    ]
