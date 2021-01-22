@@ -2,16 +2,15 @@ unit SHA1;
 
 interface
 
-uses
-   SysUtils,Dialogs;
-
 // No range and overflow checking, do not remove!!!
 {$R-}
 {$Q-}
-
+//{$DEFINE UpperCase}   {da xie}
 function GetSha1(Buffer: pointer; Size: INTEGER): AnsiString;
 
 implementation
+uses
+SysUtils;
 type
    TLogicalFunction = function(B, C, D: INTEGER): INTEGER;
 
@@ -32,7 +31,86 @@ type
 var
    LogicalFunctions: TLogicalFunctions;
 
+procedure CvtIntLowCase;
+{ IN:
+    EAX:  The integer value to be converted to text
+    ESI:  Ptr to the right-hand side of the output buffer:  LEA ESI, StrBuf[16]
+    ECX:  Base for conversion: 0 for signed decimal, 10 or 16 for unsigned
+    EDX:  Precision: zero padded minimum field width
+  OUT:
+    ESI:  Ptr to start of converted text (not start of buffer)
+    ECX:  Length of converted text
+}
+asm
+        OR      CL,CL
+        JNZ     @CvtLoop
+@C1:    OR      EAX,EAX
+        JNS     @C2
+        NEG     EAX
+        CALL    @C2
+        MOV     AL,'-'
+        INC     ECX
+        DEC     ESI
+        MOV     [ESI],AL
+        RET
+@C2:    MOV     ECX,10
 
+@CvtLoop:
+        PUSH    EDX
+        PUSH    ESI
+@D1:    XOR     EDX,EDX
+        DIV     ECX
+        DEC     ESI
+        ADD     DL,'0'
+        CMP     DL,'0'+10
+        JB      @D2
+        {$IFNDEF UpperCase}
+        ADD     DL,39
+        {$ELSE}
+        ADD     DL,7
+        {$ENDIF}
+@D2:    MOV     [ESI],DL
+        OR      EAX,EAX
+        JNE     @D1
+        POP     ECX
+        POP     EDX
+        SUB     ECX,ESI
+        SUB     EDX,ECX
+        JBE     @D5
+        ADD     ECX,EDX
+        MOV     AL,'0'
+        SUB     ESI,EDX
+        JMP     @z
+@zloop: MOV     [ESI+EDX],AL
+@z:     DEC     EDX
+        JNZ     @zloop
+        MOV     [ESI],AL
+@D5:
+end;
+
+function IntToHexLowCase(Value: Integer; Digits: Integer): string;
+//  FmtStr(Result, '%.*x', [Digits, Value]);
+asm
+        CMP     EDX, 32        // Digits < buffer length?
+        JBE     @A1
+        XOR     EDX, EDX
+@A1:    PUSH    ESI
+        MOV     ESI, ESP
+        SUB     ESP, 32
+        PUSH    ECX            // result ptr
+        MOV     ECX, 16        // base 16     EDX = Digits = field width
+        CALL    CvtIntLowCase
+        MOV     EDX, ESI
+        POP     EAX            // result ptr
+{$IF DEFINED(Unicode)}
+        CALL    System.@UStrFromPCharLen
+{$ELSE}
+        PUSH    DefaultSystemCodePage
+        CALL    System.@LStrFromPCharLen
+{$IFEND}
+        ADD     ESP, 32
+        POP     ESI
+end;
 
 function GetSha1(Buffer: pointer; Size: INTEGER): AnsiString;
 const
@@ -194,8 +272,8 @@ begin
    end;
    FreeMem(LocalBuffer);
 
-   Result := IntToHex(H0, 8)  + IntToHex(H1, 8)  + IntToHex(H2, 8)  +
-      IntToHex(H3, 8)  + IntToHex(H4, 8);
+   Result := IntToHexLowCase(H0, 8)  + IntToHexLowCase(H1, 8)  + IntToHexLowCase(H2, 8)  +
+      IntToHexLowCase(H3, 8)  + IntToHexLowCase(H4, 8);
 
 end;
 
